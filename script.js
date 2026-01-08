@@ -1,3 +1,16 @@
+// DÉFINITION DES CLASSES
+class Article {
+  constructor(name, checked = false) {
+    this.name = name;
+    this.checked = checked;
+  }
+
+  toString() {
+    return this.name;
+  }
+}
+
+// DECLARATION DES VARIABLES & CONSTANTES
 const ItemList = document.getElementById("items-list");
 const EmptyList = document.getElementById("empty-list");
 const ItemCount = document.getElementById("item-count");
@@ -9,18 +22,24 @@ const BtnReset = document.getElementById("btnReset");
 const btnDeleteSelection = document.getElementById("btnDeleteSelection");
 
 let ascendingOrder = false;
-
-// ItemList.style.display = "none";
-// ItemCount.style.display = "none";
-
 let itemsListArr = [
-  { checked: false, name: "Tomates" },
-  { checked: false, name: "Lait" },
-  { checked: false, name: "Pain" },
-  { checked: false, name: "Yaourts" },
+  new Article("Tomate"),
+  new Article("Beurre"),
+  new Article("Fromage"),
+  new Article("Lait"),
+  new Article("Pain"),
 ];
+
+// EVENTS LISTENERS
+BtnAdd.addEventListener("click", addArticle);
+BtnReset.addEventListener("click", resetList);
+ListSort.addEventListener("click", sortList);
+btnDeleteSelection.addEventListener("click", deleteSelection);
+
+// DEBUT DU SCRIPT
 RefreshList();
 
+// FONCTIONS & METHODES
 function addArticle() {
   let product = prompt("Quel produit voulez-vous ajouter ?");
   product = product.trim();
@@ -33,10 +52,7 @@ function addArticle() {
       alert("Ce produit est déja dans la liste");
       return false;
     default:
-      let article = {
-        checked: false,
-        name: product,
-      };
+      let article = new Article(product);
       itemsListArr = [article, ...itemsListArr];
   }
 
@@ -84,8 +100,6 @@ function RefreshList() {
 
   ItemCount.textContent = `Il y a ${itemsListArr.length} articles dans ma liste`;
 
-  // Afficher ou masquer la liste et / ou le texte si la liste est vide.
-
   if (itemsListArr.length > 0) {
     ItemList.style.display = "flex";
     EmptyList.style.display = "none";
@@ -126,8 +140,3 @@ function deleteSelection() {
     RefreshList();
   }
 }
-
-BtnAdd.addEventListener("click", addArticle);
-BtnReset.addEventListener("click", resetList);
-ListSort.addEventListener("click", sortList);
-btnDeleteSelection.addEventListener("click", deleteSelection);
