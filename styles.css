@@ -1,0 +1,119 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  padding: 18px;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+body {
+  background-color: rgb(251, 251, 251);
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.list-container {
+  padding: 40px 30px;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-button {
+  padding: 5px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 0;
+  background-color: white;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+
+  &:hover {
+    background-color: lightgray;
+  }
+
+  &:active {
+    transform: translateY(1px);
+    transition: 0.1s;
+  }
+}
+
+#empty-list {
+  text-align: center;
+  font-size: 2rem;
+}
+
+#list-sort {
+  text-decoration: none;
+  color: rgb(35, 103, 212);
+  font-size: 1.2rem;
+  grid-column: 1 / -1;
+  height: 40px;
+}
+
+#items-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px 0 0;
+  gap: 10px;
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+.list-item {
+  background-color: rgb(250, 250, 250);
+  border-radius: 6px;
+  border: 1px rgb(222, 222, 222) solid;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  align-items: center;
+  p {
+    font-size: 1.5rem;
+    text-transform: lowercase;
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .action-button {
+    padding: 5px;
+    font-size: 1rem;
+  }
+}
+
+#item-count {
+  font-size: 1.2rem;
+  font-weight: bold;
+  grid: 3 / -1 1 / 2;
+}
+
+@media (min-width: 1024px) {
+  .list-container {
+    margin: 30px 20%;
+
+    border-radius: 12px;
+  }
+}
