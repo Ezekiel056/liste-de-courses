@@ -34,6 +34,7 @@ btnDeleteSelection.addEventListener("click", deleteSelection);
 
 // DEBUT DU SCRIPT
 if (!window.localStorage.getItem(LOCAL_STORAGE_KEY)) {
+  // Va créer un liste par défaut la première fois qu'on arrive sur le site
   itemsListArr = [
     new Article("Tomate"),
     new Article("Beurre"),
@@ -67,13 +68,17 @@ function addArticle() {
   RefreshList();
 }
 
+// Cette fonction est appelée a chaque modification de la liste des articles et au debut de l'application
 function RefreshList() {
+  // permet de stocker la liste actuelle dans le localstorage du navigateur
+  // sans tenir compte des checkbox en cours (saisie temporaire)
   lsItemsListArr = itemsListArr.map((item) => ({ ...item, checked: false }));
   window.localStorage.setItem(
     LOCAL_STORAGE_KEY,
     JSON.stringify(lsItemsListArr)
   );
 
+  // supprime tous es items de la liste actuelle dans le HTML
   ItemList.innerHTML = "";
   let showDeleteCheked = false;
 
@@ -108,6 +113,7 @@ function RefreshList() {
     ItemList.appendChild(item);
 
     if (elem.checked) {
+      // si au moins un article est coché, on affiche le bouton de suppression des elements selectionnés
       showDeleteCheked = true;
     }
   }
