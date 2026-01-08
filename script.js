@@ -21,14 +21,10 @@ const BtnRemove = document.getElementById("btnRemove");
 const BtnReset = document.getElementById("btnReset");
 const btnDeleteSelection = document.getElementById("btnDeleteSelection");
 
+const LOCAL_STORAGE_KEY = "shopping-list-articles";
+
 let ascendingOrder = false;
-let itemsListArr = [
-  new Article("Tomate"),
-  new Article("Beurre"),
-  new Article("Fromage"),
-  new Article("Lait"),
-  new Article("Pain"),
-];
+let itemsListArr = [];
 
 // EVENTS LISTENERS
 BtnAdd.addEventListener("click", addArticle);
@@ -37,6 +33,18 @@ ListSort.addEventListener("click", sortList);
 btnDeleteSelection.addEventListener("click", deleteSelection);
 
 // DEBUT DU SCRIPT
+if (!window.localStorage.getItem(LOCAL_STORAGE_KEY)) {
+  itemsListArr = [
+    new Article("Tomate"),
+    new Article("Beurre"),
+    new Article("Fromage"),
+    new Article("Lait"),
+    new Article("Pain"),
+  ];
+} else {
+  itemsListArr = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY));
+}
+
 RefreshList();
 
 // FONCTIONS & METHODES
@@ -60,7 +68,12 @@ function addArticle() {
 }
 
 function RefreshList() {
-  console.log();
+  lsItemsListArr = itemsListArr.map((item) => ({ ...item, checked: false }));
+  window.localStorage.setItem(
+    LOCAL_STORAGE_KEY,
+    JSON.stringify(lsItemsListArr)
+  );
+
   ItemList.innerHTML = "";
   let showDeleteCheked = false;
 
@@ -75,6 +88,7 @@ function RefreshList() {
     });
     checkbox.type = "checkbox";
     checkbox.checked = itemsListArr[index].checked;
+    checkbox.name = "ArticleCheck";
 
     const p = document.createElement("p");
     p.textContent = elem.name;
