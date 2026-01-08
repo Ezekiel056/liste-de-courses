@@ -62,12 +62,11 @@ body {
   }
 }
 
-#btnDeleteSelection{
+#btnDeleteSelection {
   font-size: 2rem;
   color: red;
-  font-weight: bold;;
-  
-}  
+  font-weight: bold;
+}
 
 #empty-list {
   text-align: center;
@@ -118,10 +117,37 @@ body {
   grid: 3 / -1 1 / 2;
 }
 
+#toast-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  bottom: 0px;
+  pointer-events: none;
+
+  padding: 15px;
+  width: 100vw;
+  .toast {
+    opacity: 0.8;
+    min-height: 60px;
+    background-color: green;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+  }
+}
+
 @media (min-width: 1024px) {
   .list-container {
     margin: 30px 20%;
-
     border-radius: 12px;
+  }
+  #toast-container {
+    padding: 15px 40%;
+    top: 60px;
+    height: 1px;
   }
 }

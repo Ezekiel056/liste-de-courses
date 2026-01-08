@@ -15,6 +15,7 @@ const ItemList = document.getElementById("items-list");
 const EmptyList = document.getElementById("empty-list");
 const ItemCount = document.getElementById("item-count");
 const ListSort = document.getElementById("list-sort");
+const toastContainer = document.getElementById("toast-container");
 
 const BtnAdd = document.getElementById("btnAdd");
 const BtnRemove = document.getElementById("btnRemove");
@@ -22,6 +23,18 @@ const BtnReset = document.getElementById("btnReset");
 const btnDeleteSelection = document.getElementById("btnDeleteSelection");
 
 const LOCAL_STORAGE_KEY = "shopping-list-articles";
+const TOAST_DURATION = 1500;
+const TOAST_COLOR_INFO = "#2f86eb";
+const TOAST_COLOR_WARNING = "#f6c744";
+const TOAST_COLOR_SUCCESS = "#28a745";
+const TOAST_COLOR_ERROR = "#dc3545";
+
+const ToastType = Object.freeze({
+  info: "I",
+  warning: "W",
+  error: "E",
+  success: "S",
+});
 
 let ascendingOrder = false;
 let itemsListArr = [];
@@ -55,14 +68,15 @@ function addArticle() {
 
   switch (true) {
     case product === "":
-      alert("Vous devez saisir un produit à ajouter");
+      showToast(ToastType.error, "Vous devez saisir un produit à ajouter");
       return false;
-    case itemsListArr.find((item) => item.name === product):
-      alert("Ce produit est déja dans la liste");
+    case itemsListArr.find((item) => item.name === product) != null:
+      showToast(ToastType.error, "Ce produit est déja dans la liste");
       return false;
     default:
       let article = new Article(product);
       itemsListArr = [article, ...itemsListArr];
+      showToast(ToastType.success, `${product} ajouté à la liste`);
   }
 
   RefreshList();
@@ -141,6 +155,7 @@ function resetList() {
     window.confirm(`Vider entièrement la liste ?`)
   ) {
     itemsListArr = [];
+    showToast(ToastType.success, "Articles supprimés");
     RefreshList();
   }
 }
@@ -157,6 +172,37 @@ function sortList() {
 function deleteSelection() {
   if (window.confirm("Supprimer la sélection ?")) {
     itemsListArr = itemsListArr.filter((elem) => elem.checked === false);
+    showToast(ToastType.success, "Articles supprimés");
     RefreshList();
+  }
+}
+
+function showToast(type, message) {
+  if (message.trim() !== "") {
+    const toast = document.createElement("div");
+    toast.classList.add("toast");
+    toast.textContent = message;
+    console.log(type);
+    switch (type) {
+      case ToastType.info:
+        toast.style.backgroundColor = TOAST_COLOR_INFO;
+        break;
+      case ToastType.warning:
+        toast.style.backgroundColor = TOAST_COLOR_WARNING;
+        break;
+      case ToastType.success:
+        toast.style.backgroundColor = TOAST_COLOR_SUCCESS;
+        break;
+      case ToastType.error:
+        toast.style.backgroundColor = TOAST_COLOR_ERROR;
+        break;
+      default:
+        toast.style.backgroundColor = TOAST_COLOR_INFO;
+    }
+
+    toastContainer.prepend(toast);
+    setTimeout(() => {
+      toast.remove();
+    }, TOAST_DURATION);
   }
 }
